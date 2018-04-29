@@ -1,0 +1,131 @@
+@charset "utf-8";
+header {
+  position: relative;
+  width: 100%;
+  height: 5.44444444rem;
+  background-color: #ff0;
+}
+header ul {
+  width: 100%;
+  height: 5.07407407rem;
+}
+header li {
+  position: absolute;
+  width: 100%;
+  height: 5.07407407rem;
+}
+header p {
+  position: absolute;
+  bottom: 0.27777778rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  width: 1.9537037rem;
+  height: 0.31481481rem;
+  margin: auto;
+  border-radius: 0.31481481rem;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+header p i {
+  display: inline-block;
+  width: 0.31481481rem;
+  height: 0.31481481rem;
+  border-radius: 50%;
+  background-color: #fff;
+}
+header .blank {
+  width: 100%;
+  height: 0.37037037rem;
+  background-color: #f19049;
+}
+header em.back {
+  position: absolute;
+  top: 0.40740741rem;
+  left: 0.32407407rem;
+  width: 0.64814815rem;
+  height: 0.64814815rem;
+  background: url(../images/myInfo_yes/u59.png) no-repeat;
+  background-size: 0.64814815rem 0.64814815rem;
+}
+section {
+  position: relative;
+  color: #7b7b7b;
+}
+section .top {
+  width: 100%;
+  height: 2.25rem;
+  border-bottom: 1px solid #bdbdbd;
+  font-size: 0.35185185rem;
+  font-weight: bold;
+  color: #7b7b7b;
+}
+section p.time,
+section p.place {
+  margin-left: 0.24074074rem;
+  margin-top: 0.51851852rem;
+}
+section .ticket-info {
+  position: absolute;
+  top: 0.03703704rem;
+  right: 0.47222222rem;
+}
+section .bottom {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  padding-top: 0.55555556rem;
+  padding-left: 0.24074074rem;
+  padding-right: 0.46296296rem;
+}
+section .bottom h4 {
+  font-size: 0.37037037rem;
+}
+section .bottom div {
+  font-size: 0.31481481rem;
+  margin-top: 0.60185185rem;
+}
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.98148148rem;
+  font-size: 0;
+  letter-spacing: 0.02777778rem;
+  text-align: center;
+  background-color: #0ff;
+  color: #fff;
+}
+footer .left {
+  position: absolute;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background-color: #00a0ff;
+}
+footer .right {
+  position: absolute;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background-color: #ff9933;
+}
+footer .left h3,
+footer .right h3 {
+  font-size: 0.41666667rem;
+}
+footer .left p {
+  font-size: 0.31481481rem;
+  letter-spacing: 0.18518519rem;
+  color: #000;
+}
+footer .right p {
+  font-size: 0.14814815rem;
+}
+footer h3 {
+  margin-top: 0.33333333rem;
+}
+footer p {
+  margin-top: 0.24074074rem;
+}
