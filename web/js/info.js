@@ -17,8 +17,32 @@
         aName_no: doc.querySelectorAll("ul.ticket-no h2"),
         aTime_no: doc.querySelectorAll("ul.ticket-no span"),
     };
+    // 引入模块
+    seajs.use('./commonJs/module.js',function(config){
+        console.log(config);
+        if(window.sessionStorage.getItem('voted')){
+            // 渲染数据
+        }else {
+            config.ajax({
+                url:"xxx",
+                data:{},
+                method: 'get',
+                success: function(data){
+                    window.sessionStorage.setItem('voted');
+                    console.log(data);
+                    // 渲染数据
+                    // ele.aImg_yes.src=;
+                    // ele.aName_yes.innerHTML=
+                    // ele.aTime_yes.innerHTML=
+                },
+                error: function(status){
+                    alert("fail to request"+status);
+                }
+            })
+        }
+    })
     function Info() {
-        this.init();
+        // this.init();
         this.delBtnOn(ele.aDelBtns,ele.oUl_yes,ele.aUl_yes_lis);
         this.documentClick();
     }
