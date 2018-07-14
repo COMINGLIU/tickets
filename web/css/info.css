@@ -28,6 +28,9 @@ header em {
 header h2 {
   line-height: 2.03703704rem;
 }
+section {
+  position: relative;
+}
 section ul.title {
   display: flex;
   justify-content: space-around;
@@ -35,6 +38,16 @@ section ul.title {
   height: 1.85185185rem;
   background-color: #fff;
   font-size: 0;
+}
+section p#info {
+  opacity: 0;
+  position: absolute;
+  top: 2.03703704rem;
+  right: 0.55555556rem;
+  width: 100%;
+  text-align: right;
+  color: rgba(0, 133, 181, 0.8);
+  transition-duration: .3s;
 }
 ul.title li {
   display: inline-block;

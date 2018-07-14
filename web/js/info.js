@@ -9,7 +9,13 @@
         aUl_no_lis: doc.querySelectorAll("ul.ticket-no li"),
         aDelBtns: doc.querySelectorAll("i.delete"),
         frag1: doc.createDocumentFragment(),
-        frag2: doc.createDocumentFragment()
+        frag2: doc.createDocumentFragment(),
+        aImg_yes: doc.querySelectorAll("ul.ticket-yes img"),
+        aName_yes: doc.querySelectorAll("ul.ticket-yes h2"),
+        aTime_yes: doc.querySelectorAll("ul.ticket-yes span"),
+        aImg_no: doc.querySelectorAll("ul.ticket-no img"),
+        aName_no: doc.querySelectorAll("ul.ticket-no h2"),
+        aTime_no: doc.querySelectorAll("ul.ticket-no span"),
     };
     function Info() {
         this.init();
@@ -56,6 +62,9 @@
                         window.sessionStorage.setItem('voted');
                         console.log(data);
                         // 渲染数据
+                        // ele.aImg_yes.src=;
+                        // ele.aName_yes.innerHTML=
+                        // ele.aTime_yes.innerHTML=
                     },
                     error: function(status){
                         alert("fail to request"+status);
@@ -85,6 +94,9 @@
                                     window.sessionStorage.setItem('voted');
                                     console.log(data);
                                     // 渲染数据
+                                    // ele.aImg_yes.src=;
+                                    // ele.aName_yes.innerHTML=
+                                    // ele.aTime_yes.innerHTML=
                                 },
                                 error: function(status){
                                     alert("fail to request"+status);
@@ -110,6 +122,9 @@
                                     window.sessionStorage.setItem('noVoted');
                                     console.log(data);
                                     // 渲染数据
+                                    // ele.aImg_no.src=;
+                                    // ele.aName_no.innerHTML=
+                                    // ele.aTime_no.innerHTML=
                                 },
                                 error: function(status){
                                     alert("fail to request"+status);
@@ -125,16 +140,39 @@
             }.bind(Info.prototype));
         },
         delBtnOn: function(objs,delParent,delItems) {
+            var info = doc.getElementById("info");
             for(var i=0,len=delItems.length;i<len;i++) {
                 (function(i) {
                     this.eleUtil.addHandle(objs[i],'touchstart',function() {
                         var res = confirm("确认退订吗？");
                         if(res){
+                            ajax({
+                                url:'xxx',
+                                data:{},
+                                method:'get',
+                                error: function(status){
+                                    // 
+                                },
+                                success: function(data){
+                                    // 
+                                }
+                            })
                             this.ontouchstart = null;
                             delParent.children[i].innerHTML="";
+                            change(info);
                         }
                     })
                 }).call(Info.prototype,i);
+            }
+            // 出现又逐渐消失
+            function change(item) {
+                item.style.opacity = "1";
+                var timer = setTimeout(function(){
+                    item.style.opacity = "0";
+                },2000)
+                return function(){
+                    clearTimeout(timer);
+                }
             }
         }
     }

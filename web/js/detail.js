@@ -2,19 +2,9 @@
     var doc = document;
     var ele = {
         oBack: doc.querySelector("em.back"),
-        oRobbe: doc.querySelector(".right h3"),
+        oRobbe: doc.querySelector(".right h3"), 
         oPop: doc.querySelector(".pop"),
         oConfirm: doc.querySelector("button"),
-        oName: doc.querySelector("section .bottom h4"),
-        oPicture: doc.querySelectorAll("header img"),
-        oTime: doc.querySelector("p.time"),
-        oDescrib: doc.querySelector(".describ"),
-        oRobbed: doc.querySelector("span.yes"),
-        oNotRobbed: doc.querySelector("span.no"),
-        oDay: doc.querySelector(".day"),
-        oHour: doc.querySelector(".hour"),
-        oMin: doc.querySelector(".min"),
-        oSec: doc.querySelector(".second"),
         aPoints: doc.querySelectorAll("header p i"),
         oSwiperWrapper: doc.querySelector(".swiper-wrapper")
     };
@@ -39,115 +29,97 @@
             //拉取数据
             var sentData = window.location.search.split("=")[1];
             console.log(sentData);
+            var ele = {
+                oPicture: doc.querySelectorAll("header img"),
+                oName: doc.querySelector("section .bottom h4"),
+                oTime: doc.querySelector("p.time"),
+                oPlace: doc.querySelector("p.place"),
+                oDescrib: doc.querySelector(".describ"),
+                oRobbed: doc.querySelector("span.yes"),
+                oNotRobbed: doc.querySelector("span.no"),
+                oDay: doc.querySelector(".day"),
+                oHour: doc.querySelector(".hour"),
+                oMin: doc.querySelector(".min"),
+                oSec: doc.querySelector(".second")         
+            }
             ajax({
-                url:'xxx',
-                data:{value:'sentData'},
+                url:'../api/index.php/client/detail',
+                data:{id: sentData},
                 method: 'get',
-                success: function(data){
+                success: function(res){
                     // 渲染数据
-                    data = JSON.parse(data);
-                    console.log(data);
-                    ele.oName.innerHTML = data["name"];
-                    ele.oTime.innerHTML = data["time"];
-                    ele.oDescrib.innerHTML = data["describ"];
-                    ele.oRobbed.innerHTML = data["robbed"];
-                    ele.oNotRobbed.innerHTML = data["notrobbed"];
-                    var deadline = {};
-                    //将日期去0转换为十进制
-                    deadline.year = parseInt(data["time"].split("年")[0]);
-                    deadline.month = parseInt(data["time"].split("月")[0].split("年")[1]);
-                    deadline.date = parseInt(data["time"].split("日")[0].split("月")[1]);
-                    deadline.hour = parseInt(data["time"].split("日")[1].split("~")[1].split(":")[0]);
-                    deadline.min = parseInt(data["time"].split("日")[1].split("~")[1].split(":")[1]);
-
-                    (function() {
-                        var time = setInterval(function(){
-                            var timeSpan = {};
-                            timeSpan.step = new Date(deadline.year,deadline.month-1,deadline.date,deadline.hour,deadline.min,0).getTime()-new Date().getTime();
-                            timeSpan.dayStep = timeSpan.step/(1000*60*60*24);
-                            timeSpan.day = parseInt(timeSpan.dayStep);
-                            timeSpan.hourStep = (timeSpan.dayStep-timeSpan.day)*24;
-                            timeSpan.hour = parseInt(timeSpan.hourStep);
-                            timeSpan.minStep = ((timeSpan.hourStep-timeSpan.hour)*60);
-                            timeSpan.min = parseInt(timeSpan.minStep);
-                            timeSpan.sec = parseInt((timeSpan.minStep-timeSpan.min)*60);
-                            if(timeSpan.day<0||timeSpan.hour<0||timeSpan.min<0||timeSpan.sec<0) {
-                                var time = doc.querySelector(".left>p");
-                                time.innerHTML = "已过期";
+                    var res = JSON.parse(res);
+                    if(res['status']=='success'){
+                        var data = res['data'][0];
+                        console.log(data);
+                        ele.oName.innerHTML = data["actName"];
+                        ele.oTime.innerHTML = data["actStart"];
+                        ele.oPlace.innerHTML = data["actPlace"];
+                        ele.oDescrib.innerHTML = data["actDescribe"];
+                        ele.oRobbed.innerHTML = data["actNum"];
+                        ele.oNotRobbed.innerHTML = data["remain"];
+                        // 放图片
+                        // for(var i=0,len=parseInt(data['imageNum']);i<len;i++) {
+                        //     ele.oPicture[i].src= data['imageName'][i];
+                        // }
+                        var deadline = {};
+                        //将日期去0转换为十进制
+                        deadline.year = parseInt(data["actStart"].split("-")[0]);
+                        deadline.month = parseInt(data["actStart"].split("-")[1]);
+                        deadline.date = parseInt(data["actStart"].split("-")[2].split(" ")[0]);
+                        deadline.hour = parseInt(data["actStart"].split("-")[2].split(" ")[1].split(":")[0]);
+                        deadline.min = parseInt(data["actStart"].split("-")[2].split(" ")[1].split(":")[1]);
+                        console.log(deadline);
+                        (function() {
+                            var time = setInterval(function(){
+                                var timeSpan = {};
+                                timeSpan.step = new Date(deadline.year,deadline.month-1,deadline.date,deadline.hour,deadline.min,0).getTime()-new Date().getTime();
+                                timeSpan.dayStep = timeSpan.step/(1000*60*60*24);
+                                timeSpan.day = parseInt(timeSpan.dayStep);
+                                timeSpan.hourStep = (timeSpan.dayStep-timeSpan.day)*24;
+                                timeSpan.hour = parseInt(timeSpan.hourStep);
+                                timeSpan.minStep = ((timeSpan.hourStep-timeSpan.hour)*60);
+                                timeSpan.min = parseInt(timeSpan.minStep);
+                                timeSpan.sec = parseInt((timeSpan.minStep-timeSpan.min)*60);
+                                if(timeSpan.day<0||timeSpan.hour<0||timeSpan.min<0||timeSpan.sec<0) {
+                                    var time = doc.querySelector(".left>p");
+                                    time.innerHTML = "已过期";
+                                }
+                                ele.oDay.innerHTML = timeSpan.day;
+                                ele.oHour.innerHTML = timeSpan.hour;
+                                ele.oMin.innerHTML = timeSpan.min;
+                                ele.oSec.innerHTML = timeSpan.sec;
+                            },1000);
+                            document.onunload = function(){
+                                clearInterval(time);
                             }
-                            ele.oDay.innerHTML = timeSpan.day;
-                            ele.oHour.innerHTML = timeSpan.hour;
-                            ele.oMin.innerHTML = timeSpan.min;
-                            ele.oSec.innerHTML = timeSpan.sec;
-                        },1000);
-                        document.onunload = function(){
-                            clearInterval(time);
-                        }
-                    })();
+                        })();
+                    }else {
+                        alert(res['message']+res['status']);
+                    }
                 },
                 error: function(status) {
                     alert('fail to require'+status);
                 }
             })
-            // this.ajaxGet("../Servlet?value="+sentData,function(data) {
-            //     data = JSON.parse(data);
-            //     console.log(data);
-            //     ele.oName.innerHTML = data["name"];
-            //     ele.oTime.innerHTML = data["time"];
-            //     ele.oDescrib.innerHTML = data["describ"];
-            //     ele.oRobbed.innerHTML = data["robbed"];
-            //     ele.oNotRobbed.innerHTML = data["notrobbed"];
-            //     var deadline = {};
-            //     //将日期去0转换为十进制
-            //     deadline.year = parseInt(data["time"].split("年")[0]);
-            //     deadline.month = parseInt(data["time"].split("月")[0].split("年")[1]);
-            //     deadline.date = parseInt(data["time"].split("日")[0].split("月")[1]);
-            //     deadline.hour = parseInt(data["time"].split("日")[1].split("~")[1].split(":")[0]);
-            //     deadline.min = parseInt(data["time"].split("日")[1].split("~")[1].split(":")[1]);
-
-            //     (function() {
-            //         var time = setInterval(function(){
-            //             var timeSpan = {};
-            //             timeSpan.step = new Date(deadline.year,deadline.month-1,deadline.date,deadline.hour,deadline.min,0).getTime()-new Date().getTime();
-            //             timeSpan.dayStep = timeSpan.step/(1000*60*60*24);
-            //             timeSpan.day = parseInt(timeSpan.dayStep);
-            //             timeSpan.hourStep = (timeSpan.dayStep-timeSpan.day)*24;
-            //             timeSpan.hour = parseInt(timeSpan.hourStep);
-            //             timeSpan.minStep = ((timeSpan.hourStep-timeSpan.hour)*60);
-            //             timeSpan.min = parseInt(timeSpan.minStep);
-            //             timeSpan.sec = parseInt((timeSpan.minStep-timeSpan.min)*60);
-            //             if(timeSpan.day<0||timeSpan.hour<0||timeSpan.min<0||timeSpan.sec<0) {
-            //                 var time = doc.querySelector(".left>p");
-            //                 time.innerHTML = "已过期";
-            //             }
-            //             ele.oDay.innerHTML = timeSpan.day;
-            //             ele.oHour.innerHTML = timeSpan.hour;
-            //             ele.oMin.innerHTML = timeSpan.min;
-            //             ele.oSec.innerHTML = timeSpan.sec;
-            //         },1000);
-            //         document.onunload = function() {
-            //             clearInterval(time);
-            //         }
-            //     })();
-            // });
         },
         eleUtil: {
-            addHandle: function(ele,type,fn) {
-                if(ele.addEventListener) {
-                    ele.addEventListener(type,fn);
-                }else if(ele.attachEvent) {
-                    ele.attachEvent(ele,"on"+type,fn);
+            addHandle: function(item,type,fn) {
+                if(item.addEventListener) {
+                    item.addEventListener(type,fn);
+                }else if(item.attachEvent) {
+                    item.attachEvent(item,"on"+type,fn);
                 }else {
-                    ele['on'+type] = fn;
+                    item['on'+type] = fn;
                 }
             },
             moveHandle(){
-                if(ele.removeEventListener) {
-                    ele.removeEventListener(type,fn);
-                }else if(ele.dettachEvent) {
-                    ele.dettachEvent(ele,"on"+type,fn);
+                if(item.removeEventListener) {
+                    item.removeEventListener(type,fn);
+                }else if(item.dettachEvent) {
+                    item.dettachEvent(item,"on"+type,fn);
                 }else {
-                    ele['on'+type] = null;
+                    item['on'+type] = null;
                 }
             }
         },
@@ -201,10 +173,11 @@
                         data:{},
                         method: 'post',
                         error:function(status){
-
+                            alert('通信错误'+status);
                         },
                         success: function(data){
                             console.log(data);
+                            // 把票推过去
                         }
                     })
                 }

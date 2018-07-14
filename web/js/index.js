@@ -1,7 +1,6 @@
 (function(document){
     var doc = document;
     var oPersonalCenter= doc.querySelector(".personal-center");
-        
     function Main() {
         // 获取主页活动信息
         this.init();
@@ -58,6 +57,9 @@
                         aActivities[j].onclick = function(){
                             window.location.href="detail.html?id="+data[j].id;
                         }
+                        // TouchSim(aActivities[j]).tap(function(e){
+                        //     window.location.href="detail.html?id="+data[j].id;
+                        // })
                     })(j)
                 }
             }else {
@@ -70,24 +72,31 @@
                     },
                     success: function (res){
                         var res = JSON.parse(res);
-                        var data = res["data"];
-                        console.log(data);
-                        window.sessionStorage.setItem('actAll',JSON.stringify(data));
-                        // 渲染数据if(data.length<aActivities.length){
-                        if(data.length<aActivities.length){
-                            for(var i=data.length,len=aActivities.length;i<len;i++) {
-                                oWrapper.removeChild(aActivities[i]);
-                            }
-                        }
-                        for(var j=0,len=aActivities.length;j<len;j++) {
-                            // aActImgs[j].src=data[j].imageName[0];
-                            aTitles[j].innerHTML = data[j].actName;
-                            aTime[j].innerHTML = data[j].actStart+"——"+data[j].actEnd;
-                            (function(j){
-                                aActivities[j].onclick = function(){
-                                    window.location.href="detail.html?id="+data[j].id;
+                        if(res["status"]=="success"){
+                            var data = res["data"];
+                            window.sessionStorage.setItem('actAll',JSON.stringify(data));
+                            // 渲染数据
+                            if(data.length<aActivities.length){
+                                for(var i=data.length,len=aActivities.length;i<len;i++) {
+                                    oWrapper.removeChild(aActivities[i]);
                                 }
-                            })(j)
+                            }
+                            for(var j=0,len=aActivities.length;j<len;j++) {
+                                // aActImgs[j].src=data[j].imageName[0];
+                                aTitles[j].innerHTML = data[j].actName;
+                                aTime[j].innerHTML = data[j].actStart+"——"+data[j].actEnd;
+                                (function(j){
+                                    aActivities[j].onclick = function(){
+                                        window.location.href="detail.html?id="+data[j].id;
+                                    }
+                                    // 用封装的tap模拟click事件
+                                    // TouchSim(aActivities[j]).tap(function(e){
+                                    //     window.location.href="detail.html?id="+data[j].id;
+                                    // })
+                                })(j)
+                            }
+                        }else{
+                            alert(res['message']+res['status']);
                         }
                     }
                 });

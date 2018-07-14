@@ -14,10 +14,10 @@ function ajax(config){
             if((xhr.status>=200&&xhr.status<300)||xhr.status==304){
                 var data=xhr.responseText;
                 // 成功
-                config.success(data);
+                config.success&&config.success(data);
             }else {
                 // 失败
-                config.error(xhr.status);
+                config.error&&config.error(xhr.status);
             }
         }
     };
