@@ -1,6 +1,8 @@
 @charset "utf-8";
 @rem: 1080/10rem;
 @header-bgColor: #0085b5;
+
+
 // header
 header {
     position: fixed;
@@ -37,11 +39,17 @@ header .personal-center {
     background: url(../images/main/u51.png) no-repeat;
     background-size: 61/@rem 61/@rem;
 } 
+p#fresh {
+    text-align: center;
+    margin: 0;
+    padding-top: 168/@rem;
+    font-size: 34/@rem;
+    line-height: 100/@rem;
+}
 // section for activities
 section {
     width: 100%;
     height: auto;
-    padding-top: 139/@rem;
     background-color: rgb(192,222,237);
 }
 section ul.activities li{
@@ -50,6 +58,9 @@ section ul.activities li{
     padding: 29/@rem 29/@rem 29/@rem 29/@rem;
     margin-top: 30/@rem;
     background-color: rgb(230,242,247);
+}
+section ul.activities li:first-child{
+    margin-top: 0;
 }
 li img {
     display: block;

@@ -34,10 +34,16 @@ header .personal-center {
   background: url(../images/main/u51.png) no-repeat;
   background-size: 0.56481481rem 0.56481481rem;
 }
+p#fresh {
+  text-align: center;
+  margin: 0;
+  padding-top: 1.55555556rem;
+  font-size: 0.31481481rem;
+  line-height: 0.92592593rem;
+}
 section {
   width: 100%;
   height: auto;
-  padding-top: 1.28703704rem;
   background-color: #c0deed;
 }
 section ul.activities li {
@@ -45,6 +51,9 @@ section ul.activities li {
   padding: 0.26851852rem 0.26851852rem 0.26851852rem 0.26851852rem;
   margin-top: 0.27777778rem;
   background-color: #e6f2f7;
+}
+section ul.activities li:first-child {
+  margin-top: 0;
 }
 li img {
   display: block;
