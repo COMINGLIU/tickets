@@ -201,7 +201,8 @@
         // 回到上一个页面
         backTouch: function(obj) {
             this.eleUtil.addHandle(obj,'touchstart',function() {
-                window.location.href = "index.html";
+                // window.location.href = "index.html";
+                window.history.back();
             })
         },
         // 点击抢票

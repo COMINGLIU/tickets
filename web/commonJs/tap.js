@@ -13,8 +13,8 @@
 		},
 		// 单机
 		tap: function(handle){
-			this.ele.addEventListener('touchstart',handle);
-			this.ele.addEventListener('touchend',handle);
+			this.ele.addEventListener('touchstart',touchFn);
+			this.ele.addEventListener('touchend',touchFn);
 			var startTime,endTime;
 			function touchFn(e){
 				e.preventDefault();

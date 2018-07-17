@@ -38,7 +38,7 @@ function ajax(config){
     if(config.method.toLowerCase()=="get"){
         xhr.open('get',config.url+'?'+sendData,true);
         // 解决超时问题
-        xhr.timeout=1000;
+        xhr.timeout=2000;
         xhr.ontimeout = function(){
             alert("超时");
         }
@@ -46,7 +46,7 @@ function ajax(config){
     }else if(config.method.toUpperCase()=='post'){
         xhr.open('post',config.url);
         xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-        xhr.timeout=1000;
+        xhr.timeout=2000;
         xhr.ontimeout = function(){
             alert("超时");
         }

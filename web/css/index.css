@@ -85,3 +85,9 @@ li p em {
   vertical-align: top;
   opacity: .3;
 }
+#addMore {
+  font-size: 0.09259259rem;
+  color: #0085b5;
+  text-align: center;
+  line-height: 0.92592593rem;
+}
