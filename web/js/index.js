@@ -43,6 +43,7 @@
                 aWrappers = doc.getElementsByClassName("activities"), 
                 oWrapper = doc.getElementsByClassName("activities")[0],
                 aActivities = oWrapper.getElementsByTagName("li"),
+                aJump = oWrapper.getElementsByTagName("a"),
                 aActImgs = oWrapper.getElementsByTagName("img"),
                 aTitles = oWrapper.getElementsByTagName("h3"),
                 aTime = oWrapper.getElementsByTagName("span"),
@@ -77,7 +78,7 @@
                     console.log(data);
                     if(data.toString()=="") {
                         console.log('没有了');
-                        confirm('暂无其他活动啦，感谢关注哦!');                                
+                        confirm('暂无其他活动啦，感谢您的关注!');                                
                     }else {
                         // 缓存每一项的数据
                         window.sessionStorage.setItem('act'+pageN,JSON.stringify(data));
@@ -87,26 +88,17 @@
                         console.log("data.length="+data.length);
                         if (pageN==1){
                             for(var j=0,len=data.length;j<len;j++) {
+                                aJump[j].href += data[j].id;
                                 // aActImgs[j].src=data[j].imageName[0];
                                 aTitles[j].innerHTML = data[j].actName;
                                 aTime[j].innerHTML = data[j].actStart+"——"+data[j].actEnd;
-                                (function(j){
-                                    aActivities[j].onclick = function(e){
-                                        e.stopPropagation();
-                                        window.location.href="detail.html?id="+data[j].id;
-                                    }
-                                    // 用封装的tap模拟click事件
-                                    // TouchSim(aActivities[j]).tap(function(e){
-                                    //     window.location.href="detail.html?id="+data[j].id;
-                                    // })
-                                })(j)
                             }
                         }else {
                             var oUl = document.createElement('ul');
                             oUl.className = "activities";
                             for(var d=0,lenData=data.length;d<lenData;d++) {
                                 var item = document.createElement('li');
-                                item.innerHTML = '<img src="" alt="" width="100%" height="100%"><h3></h3><p><em></em><span></span></p>';
+                                item.innerHTML = '<a href="detail.html#"><img src="" alt="" width="100%" height="100%"><h3></h3><p><em></em><span></span></p></a>';
                                 frag.appendChild(item);
                             }
                             oUl.appendChild(frag);
@@ -115,35 +107,18 @@
                             topNode.id = "addMore";
                             topNode.innerHTML = "点击加载更多";
                             oSection.appendChild(topNode);
-                            topNode.ontouchstart = function(e){
-                                console.log('加载更多');
-                                e.stopPropagation();
-                                Main.prototype.init(parseInt(window.sessionStorage.getItem("page"))+1);
-                                topNode.ontouchstart = null;
-                                // 删除上一个‘加载更多’节点
-                                oSection.removeChild(document.getElementById("addMore"));
-                            };
+                            Main.prototype.clickAddMore();
                             // 渲染新数据
+                            aJump = aWrappers[pageN-1].getElementsByTagName("a");
                             aActImgs = aWrappers[pageN-1].getElementsByTagName("img");
                             aTitles = aWrappers[pageN-1].getElementsByTagName("h3");
                             aTime = aWrappers[pageN-1].getElementsByTagName("span");
                             for(var j=0,len=data.length;j<len;j++) {
                                 // aActImgs[j].src=data[j].imageName[0];
+                                aJump[j].href +=data[j].id;
                                 aTitles[j].innerHTML = data[j].actName;
                                 aTime[j].innerHTML = data[j].actStart+"——"+data[j].actEnd;
                                 aActivities[j].id=data[j].id;
-                                // 给新节点绑定点击事件
-                                (function(j){
-                                    console.log(aActivities[j]);
-                                    aActivities[j].ontouchstart = function(){
-                                        console.log('click'+this);
-                                        window.location.href="detail.html?id="+this.id;
-                                    }
-                                    // 用封装的tap模拟click事件
-                                    // TouchSim(aActivities[j]).tap(function(e){
-                                    //     window.location.href="detail.html?id="+data[j].id;
-                                    // })
-                                })(j)
                             }
                         }
                         // 把更新消息去掉
@@ -202,7 +177,6 @@
             var oSection = doc.getElementsByTagName("section")[0];
             obj.ontouchstart = function(e){
                 e.preventDefault();
-                this.toTop();
                 this.init(parseInt(window.sessionStorage.getItem("page"))+1);
                 oSection.removeChild(obj);
             }.bind(this);

@@ -11,7 +11,8 @@
     seajs.use('./commonJs/module.js',function(config){
         console.log(config);
         //拉取数据
-        var sentData = window.location.search.split("=")[1];
+        var sentData = window.location.href.split("#")[1];
+
         var ele = {
             oPicture: doc.querySelectorAll("header img"),
             oName: doc.querySelector("section .bottom h4"),
@@ -202,7 +203,7 @@
         backTouch: function(obj) {
             this.eleUtil.addHandle(obj,'touchstart',function() {
                 // window.location.href = "index.html";
-                window.history.back();
+                window.history.back(-1);
             })
         },
         // 点击抢票

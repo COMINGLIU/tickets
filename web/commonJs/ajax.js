@@ -10,6 +10,8 @@ config={
 function ajax(config){
     var xhr=createXHR();
     xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        console.log(xhr.status);
         if(xhr.readyState==4){
             if((xhr.status>=200&&xhr.status<300)||xhr.status==304){
                 var data=xhr.responseText;
@@ -38,10 +40,10 @@ function ajax(config){
     if(config.method.toLowerCase()=="get"){
         xhr.open('get',config.url+'?'+sendData,true);
         // 解决超时问题
-        xhr.timeout=2000;
-        xhr.ontimeout = function(){
-            alert("超时");
-        }
+        // xhr.timeout=2000;
+        // xhr.ontimeout = function(){
+        //     alert("超时");
+        // }
         xhr.send(null);
     }else if(config.method.toUpperCase()=='post'){
         xhr.open('post',config.url);

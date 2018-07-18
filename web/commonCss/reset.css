@@ -18,9 +18,11 @@ input,textarea,select{*font-size:100%}
 body {
     font-family: "MicrosoftYaHei";
 }
-
 .clearfix:after {
     content: "";
     display: block;
     clear: both;
+}
+a{
+    text-decoration: none;
 }
